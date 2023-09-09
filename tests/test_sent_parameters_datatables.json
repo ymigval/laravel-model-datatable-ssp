@@ -1,0 +1,69 @@
+{
+    "draw": "9",
+    "columns": [{
+        "data": "0",
+        "name": null,
+        "searchable": "true",
+        "orderable": "true",
+        "search": {
+            "value": null,
+            "regex": "false"
+        }
+    }, {
+        "data": "1",
+        "name": null,
+        "searchable": "true",
+        "orderable": "true",
+        "search": {
+            "value": null,
+            "regex": "false"
+        }
+    }, {
+        "data": "2",
+        "name": null,
+        "searchable": "true",
+        "orderable": "true",
+        "search": {
+            "value": null,
+            "regex": "false"
+        }
+    }, {
+        "data": "3",
+        "name": null,
+        "searchable": "true",
+        "orderable": "true",
+        "search": {
+            "value": null,
+            "regex": "false"
+        }
+    }, {
+        "data": "4",
+        "name": null,
+        "searchable": "true",
+        "orderable": "true",
+        "search": {
+            "value": null,
+            "regex": "false"
+        }
+    }, {
+        "data": "5",
+        "name": null,
+        "searchable": "true",
+        "orderable": "true",
+        "search": {
+            "value": null,
+            "regex": "false"
+        }
+    }],
+    "order": [{
+        "column": "2",
+        "dir": "asc"
+    }],
+    "start": "0",
+    "length": "10",
+    "search": {
+        "value": null,
+        "regex": "false"
+    },
+    "_": "1693622719810"
+}

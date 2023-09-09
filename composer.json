@@ -1,0 +1,46 @@
+{
+    "name": "ymigval/laravel-model-datatable-ssp",
+    "description": "Extension designed to seamlessly integrate Laravel models with server-side DataTables. It provides a convenient and efficient way to fetch, transform, and display data from your Laravel models in DataTables.",
+    "keywords": [
+        "laravel",
+        "datatables",
+        "model",
+        "eloquent",
+        "query",
+        "api",
+        "ssp"
+      ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yordan",
+            "email": "banatube@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^8.10"
+    },
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ymigval\\LaravelModelToDatatables\\DataTablesServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Ymigval\\LaravelModelToDatatables\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ymigval\\LaravelModelToDatatables\\Tests\\": "tests/",
+            "Workbench\\": "workbench/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

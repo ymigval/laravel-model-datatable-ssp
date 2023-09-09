@@ -1,0 +1,11 @@
+# Changelog
+
+All updates and notable changes in the "ymigval/laravel-model-datatable-ssp" package will be documented in this file.
+
+## [Version 1.0.0] - 2023-09-08
+
+### Added
+
+- Implemented integration of Laravel models with DataTables.
+- Allowed customization of columns and transformation of output data.
+- Added the ability to use DataTables with Eloquent models and Query Builder.
