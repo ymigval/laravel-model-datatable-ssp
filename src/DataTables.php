@@ -70,13 +70,12 @@ class DataTables
 
         $builder = $this->withSearch($this->builder);
         $builder = $this->withOrder($builder);
+        $builder = $this->withPagination($builder);
 
         $data['recordsFiltered'] = $builder->count();
 
         foreach (
             $builder
-            ->take($this->getRequestQuery('length'))
-            ->skip($this->getRequestQuery('start'))
             ->get(static::fieldsWithAlias(array_keys($this->fields))) as $row
         ) {
             $column = [];
@@ -369,6 +368,27 @@ class DataTables
                 }
             }
         });
+
+        return $builder;
+    }
+
+    /**
+     * Apply pagination to the query
+     * @param Builder $builder
+     * @return Builder
+     */
+    public function withPagination($builder)
+    {
+        if (is_numeric($this->getRequestQuery('length')) && intval($this->getRequestQuery('length')) >= 0) {
+            $builder->take($this->getRequestQuery('length'));
+
+            $start = 0;
+            if (is_numeric($this->getRequestQuery('start')) && intval($this->getRequestQuery('start')) >= 0) {
+                $start = $this->getRequestQuery('start');
+            }
+
+            $builder->skip($start);
+        }
 
         return $builder;
     }
