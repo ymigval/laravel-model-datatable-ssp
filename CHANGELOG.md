@@ -2,11 +2,18 @@
 
 All updates and notable changes in the "ymigval/laravel-model-datatable-ssp" package will be documented in this file.
 
+
+## [Version 1.0.2] - 2023-09-16
+
+### Bug Fixes
+
+- Correction of the length parameter in the Factory Request.
+
 ## [Version 1.0.1] - 2023-09-14
 
 ### Bug Fixes
 
-- Fixed a bug that occurred in the query when DataTable sent a request with paging off
+- Fixed a bug that occurred in the query when DataTable sent a request with paging off.
 
 
 ## [Version 1.0.0] - 2023-09-08

@@ -45,7 +45,7 @@ class FactoryRequest
             'columns' => $this->generateColumns(),
             'order'   => [],
             'start'   => 0,
-            'length'  => 10,
+            'length'  => -1,
             'search'  => [
                 'value' => null,
                 'regex' => false,
