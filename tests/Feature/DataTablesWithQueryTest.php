@@ -47,7 +47,7 @@ class DataTablesWithQueryTest extends TestCase
                 'first_name',
                 'last_name',
                 'phone' => function ($column) {
-                    return '+1' . $column;
+                    return '+1'.$column;
                 },
             ]
         );
@@ -64,7 +64,7 @@ class DataTablesWithQueryTest extends TestCase
             [
                 'first_name',
                 'last_name' => function ($column, $row) {
-                    return $row->first_name . ' ' . $column;
+                    return $row->first_name.' '.$column;
                 },
             ]
         );
@@ -98,7 +98,7 @@ class DataTablesWithQueryTest extends TestCase
         $result = DB::table('customers')->datatable(
             [
                 'first_name' => function ($column, $row) {
-                    return $column . ' ' . $row->last_name;
+                    return $column.' '.$row->last_name;
                 },
             ], ['last_name']
         );

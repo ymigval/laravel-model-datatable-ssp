@@ -17,27 +17,27 @@ class DatabaseSeeder extends Seeder
     {
         Customer::create([
             'first_name' => fake()->name,
-            'last_name'  => fake()->lastName(),
-            'phone'      => fake()->phoneNumber(),
+            'last_name' => fake()->lastName(),
+            'phone' => fake()->phoneNumber(),
         ]);
 
         Customer::create([
             'first_name' => fake()->name,
-            'last_name'  => fake()->lastName(),
-            'phone'      => fake()->phoneNumber(),
+            'last_name' => fake()->lastName(),
+            'phone' => fake()->phoneNumber(),
         ]);
 
         Customer::create([
             'first_name' => fake()->name,
-            'last_name'  => fake()->lastName(),
-            'phone'      => fake()->phoneNumber(),
+            'last_name' => fake()->lastName(),
+            'phone' => fake()->phoneNumber(),
         ]);
 
         foreach (Customer::all() as $row) {
             Business::create(
                 [
                     'id_customer' => $row->id,
-                    'name'        => fake()->company,
+                    'name' => fake()->company,
                 ]
             );
         }

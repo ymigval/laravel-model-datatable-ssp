@@ -15,30 +15,35 @@ class DataTables
 {
     /**
      * Instance of the query builder
+     *
      * @var Builder
      */
     protected $builder;
 
     /**
      * Request for querying data
+     *
      * @var \Illuminate\Http\Request
      */
     protected $requestQuery;
 
     /**
      * Contains field mapping
+     *
      * @var array
      */
     protected $fieldMapping = [];
 
     /**
      * Contains fields to include in the context
+     *
      * @var array
      */
     protected $fieldsInContext = [];
 
     /**
      * Contains all resolved fields
+     *
      * @var array
      */
     protected $fields = [];
@@ -58,25 +63,28 @@ class DataTables
      * Transform a DataTables request
      * The default output is 'response'
      *
-     * @param string $output Output mode: response | array | json
+     * @param  string  $output Output mode: response | array | json
      * @return \Illuminate\Http\JsonResponse|array|string
      */
     public function transform($output = 'response')
     {
         $data = [];
 
-        $data['draw']         = (int) $this->getRequestQuery('draw');
+        $data['draw'] = (int) $this->getRequestQuery('draw');
         $data['recordsTotal'] = $this->builder->count();
+        $data['recordsFiltered'] = $data['recordsTotal'];
 
         $builder = $this->withSearch($this->builder);
         $builder = $this->withOrder($builder);
         $builder = $this->withPagination($builder);
 
-        $data['recordsFiltered'] = $builder->count();
+        if ($builder->count()) {
+            $data['recordsFiltered'] = $builder->count();
+        }
 
         foreach (
             $builder
-            ->get(static::fieldsWithAlias(array_keys($this->fields))) as $row
+                ->get(static::fieldsWithAlias(array_keys($this->fields))) as $row
         ) {
             $column = [];
             foreach ($this->fieldMapping as $field => $format) {
@@ -97,8 +105,10 @@ class DataTables
 
     /**
      * Set the field mapping
-     * @param array | Closure $fieldMapping
+     *
+     * @param  array | Closure  $fieldMapping
      * @return void
+     *
      * @throws DataTablesNoColumnDefException | DataTablesInvalidArgumentException
      */
     protected function setFieldMapping($fieldMapping)
@@ -106,7 +116,7 @@ class DataTables
         if (gettype($fieldMapping) === 'object' && $fieldMapping instanceof Closure) {
             $fieldMapping = call_user_func($fieldMapping);
 
-            if (!is_array($fieldMapping)) {
+            if (! is_array($fieldMapping)) {
                 $fieldMapping = [];
             }
         } else {
@@ -124,6 +134,7 @@ class DataTables
 
     /**
      * Set the fields in the context
+     *
      * @return void
      */
     protected function setFieldsInContext(array $fieldsInContext = [])
@@ -133,12 +144,12 @@ class DataTables
 
     /**
      * Set the request query
-     * @param \Illuminate\Http\Request $requestQuery
+     *
      * @return void
      */
     protected function setRequestQuery(\Illuminate\Http\Request $requestQuery)
     {
-        if (!$this->isDatatablesRequest($requestQuery)) {
+        if (! $this->isDatatablesRequest($requestQuery)) {
             $this->requestQuery = new FactoryRequest(count($this->fieldMapping));
         } else {
             $this->requestQuery = $requestQuery;
@@ -147,7 +158,8 @@ class DataTables
 
     /**
      * Get a request query item
-     * @param string $key
+     *
+     * @param  string  $key
      * @return string|array|null
      */
     protected function getRequestQuery($key)
@@ -157,6 +169,7 @@ class DataTables
 
     /**
      * Get resolved fields
+     *
      * @return array
      */
     protected function getFields()
@@ -166,6 +179,7 @@ class DataTables
 
     /**
      * Homogenize field mapping
+     *
      * @return void
      */
     protected function homogenizeFieldMapping()
@@ -174,12 +188,16 @@ class DataTables
         foreach ($this->fieldMapping as $field => $format) {
 
             // Add a return function to the field definition if it doesn't have one
-            if (!($format instanceof Closure)) {
-                $fieldMapping[trim($format)] = function ($f, $r) {return $f;};
+            if (! ($format instanceof Closure)) {
+                $fieldMapping[trim($format)] = function ($f, $r) {
+                    return $f;
+                };
+
                 continue;
-            } else if (is_numeric($field) && $format instanceof Closure) {
+            } elseif (is_numeric($field) && $format instanceof Closure) {
                 // If the definition has no field, add a marker "{n}"
-                $fieldMapping["{" . trim($field) . "}"] = $format;
+                $fieldMapping['{'.trim($field).'}'] = $format;
+
                 continue;
             } else {
                 $fieldMapping[trim($field)] = $format;
@@ -194,6 +212,7 @@ class DataTables
 
     /**
      * Homogenize the fields in the context
+     *
      * @return void
      */
     protected function homogenizeFieldsInContext()
@@ -206,12 +225,14 @@ class DataTables
             if (is_numeric($field)) {
                 $this->fieldsInContext[trim($options)] = $defaultOptions;
                 unset($this->fieldsInContext[$field]);
+
                 continue;
             }
 
             // If the field has options, merge them with the default options
             if (is_array($options)) {
                 $this->fieldsInContext[trim($field)] = array_merge($defaultOptions, $options);
+
                 continue;
             }
         }
@@ -219,16 +240,18 @@ class DataTables
 
     /**
      * Inspect field mapping
+     *
      * @return void
+     *
      * @throws DataTablesColumnDefErrorException
      */
     protected function inspectFieldMapping()
     {
         $inspectRow = 0;
         foreach ($this->fieldMapping as $field => $format) {
-            ++$inspectRow;
+            $inspectRow++;
 
-            if (is_string($field) && !empty($field) && !is_numeric($field) && is_callable($format)) {
+            if (is_string($field) && ! empty($field) && ! is_numeric($field) && is_callable($format)) {
                 continue;
             }
 
@@ -238,6 +261,7 @@ class DataTables
 
     /**
      * Resolve the fields in field mapping and additional fields
+     *
      * @return void
      */
     protected function resolveFields()
@@ -248,10 +272,10 @@ class DataTables
                 continue;
             }
 
-            $unstructureField     = static::unstructureField($field);
+            $unstructureField = static::unstructureField($field);
             $this->fields[$field] = [
                 'field' => $unstructureField[0],
-                'alia'  => isset($unstructureField[1]) ? $unstructureField[1] : static::resolveCompoundFields($unstructureField[0]),
+                'alia' => isset($unstructureField[1]) ? $unstructureField[1] : static::resolveCompoundFields($unstructureField[0]),
             ];
         }
 
@@ -261,17 +285,18 @@ class DataTables
                 $field = $options;
             }
 
-            $unstructureField     = static::unstructureField($field);
+            $unstructureField = static::unstructureField($field);
             $this->fields[$field] = [
                 'field' => $unstructureField[0],
-                'alia'  => isset($unstructureField[1]) ? $unstructureField[1] : static::resolveCompoundFields($unstructureField[0]),
+                'alia' => isset($unstructureField[1]) ? $unstructureField[1] : static::resolveCompoundFields($unstructureField[0]),
             ];
         }
     }
 
     /**
      * Apply ordering to the query
-     * @param  Builder $builder
+     *
+     * @param  Builder  $builder
      * @return Builder
      */
     public function withOrder($builder)
@@ -281,7 +306,7 @@ class DataTables
         foreach (($this->getRequestQuery('order') ?? []) as $orderColumn) {
             $columnIndexInRequest = $orderColumn['column'];
 
-            $field     = $fieldMapping[$columnIndexInRequest] ?? null;
+            $field = $fieldMapping[$columnIndexInRequest] ?? null;
             $direction = $orderColumn['dir'];
 
             if ($field) {
@@ -314,13 +339,14 @@ class DataTables
 
     /**
      * Apply search to the query
-     * @param  Builder $builder
+     *
+     * @param  Builder  $builder
      * @return Builder
      */
     public function withSearch($builder)
     {
-        $globalSearchField    = [];
-        $specificSearchField  = [];
+        $globalSearchField = [];
+        $specificSearchField = [];
         $columnIndexInRequest = -1;
 
         foreach ($this->fieldMapping as $field => $format) {
@@ -335,8 +361,8 @@ class DataTables
                     $searchField = array_unique($searchField);
                 }
 
-                if (!empty($this->getRequestQuery('search')['value']) || !empty($columnInRequest['search']['value'])) {
-                    if (!empty($columnInRequest['search']['value'])) {
+                if (! empty($this->getRequestQuery('search')['value']) || ! empty($columnInRequest['search']['value'])) {
+                    if (! empty($columnInRequest['search']['value'])) {
                         // Specific field search
                         $specificSearchField = array_merge($specificSearchField, array_fill_keys($searchField, $columnInRequest['search']['value']));
                     } else {
@@ -362,9 +388,9 @@ class DataTables
                 }
 
                 if ($hasSpecificFields) {
-                    $query->where($this->fields[$targetField]['field'] ?? $targetField, "LIKE", "%{$value}%");
+                    $query->where($this->fields[$targetField]['field'] ?? $targetField, 'LIKE', "%{$value}%");
                 } else {
-                    $query->orWhere($this->fields[$targetField]['field'] ?? $targetField, "LIKE", "%{$value}%");
+                    $query->orWhere($this->fields[$targetField]['field'] ?? $targetField, 'LIKE', "%{$value}%");
                 }
             }
         });
@@ -374,7 +400,8 @@ class DataTables
 
     /**
      * Apply pagination to the query
-     * @param Builder $builder
+     *
+     * @param  Builder  $builder
      * @return Builder
      */
     public function withPagination($builder)
@@ -395,6 +422,7 @@ class DataTables
 
     /**
      * Check if it's a marker
+     *
      * @return bool
      */
     protected static function isMarker($field)
@@ -408,15 +436,15 @@ class DataTables
 
     /**
      * Get the fields used with the $row parameter in the field mapping
-     * @param  Closure $format
+     *
      * @return array
      */
     protected function usedRowField(Closure $format)
     {
         $reflection = new ReflectionFunction($format);
-        $filename   = $reflection->getFileName();
-        $startLine  = $reflection->getStartLine();
-        $endLine    = $reflection->getEndLine();
+        $filename = $reflection->getFileName();
+        $startLine = $reflection->getStartLine();
+        $endLine = $reflection->getEndLine();
 
         $source = file_get_contents($filename);
 
@@ -426,9 +454,9 @@ class DataTables
 
         $definition = '';
         if ($source !== false) {
-            $sourceLines     = explode("\n", $source);
+            $sourceLines = explode("\n", $source);
             $definitionLines = array_slice($sourceLines, $startLine - 1, $endLine - $startLine + 1);
-            $definition      = implode("\n", $definitionLines);
+            $definition = implode("\n", $definitionLines);
         }
 
         $traceField = [];
@@ -449,6 +477,7 @@ class DataTables
 
     /**
      * Check if the request is a DataTables request
+     *
      * @return bool
      */
     protected function isDatatablesRequest(\Illuminate\Http\Request $requestQuery)
@@ -462,10 +491,10 @@ class DataTables
             return false;
         } else {
             if (
-                !is_numeric($requestQuery->draw) ||
-                !is_array($requestQuery->columns) ||
-                !is_numeric($requestQuery->start) ||
-                !is_numeric($requestQuery->length)
+                ! is_numeric($requestQuery->draw) ||
+                ! is_array($requestQuery->columns) ||
+                ! is_numeric($requestQuery->start) ||
+                ! is_numeric($requestQuery->length)
             ) {
                 return false;
             } else {
@@ -480,16 +509,19 @@ class DataTables
 
     /**
      * Unstructure field
+     *
      * @return array
      */
     protected static function unstructureField(string $field)
     {
         $pattern = '/(?:\sAS\s|\s+)/i';
+
         return preg_split($pattern, $field);
     }
 
     /**
      * Transform fields with aliases
+     *
      * @return array
      */
     protected static function fieldsWithAlias(array $field)
@@ -499,14 +531,14 @@ class DataTables
             if (count(static::unstructureField($field)) > 1) {
                 return $field;
             } else {
-                return $field . ' AS ' . static::resolveCompoundFields($field);
+                return $field.' AS '.static::resolveCompoundFields($field);
             }
         }, $field);
     }
 
     /**
      * Resolve compound fields
-     * @param string $field
+     *
      * @return string
      */
     protected static function resolveCompoundFields(string $field)

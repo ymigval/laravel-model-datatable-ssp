@@ -7,9 +7,9 @@ namespace Ymigval\LaravelModelToDatatables;
  */
 class FactoryRequest
 {
-
     /**
      * Number of columns to generate
+     *
      * @var int
      */
     protected $numberOfColumns;
@@ -21,11 +21,10 @@ class FactoryRequest
 
     /**
      * Retrieve a query string item from the request
-     * @param  string|null $key
-     * @param  string|null $default
+     *
      * @return array|string|null
      */
-    public function query( ? string $key = null,  ? string $default = null)
+    public function query(?string $key = null, ?string $default = null)
     {
         if (is_null($key)) {
             return $this->generateDefinition();
@@ -36,17 +35,18 @@ class FactoryRequest
 
     /**
      * Generate mock request parameters
+     *
      * @return array
      */
     protected function generateDefinition()
     {
         return [
-            'draw'    => 0,
+            'draw' => 0,
             'columns' => $this->generateColumns(),
-            'order'   => [],
-            'start'   => 0,
-            'length'  => -1,
-            'search'  => [
+            'order' => [],
+            'start' => 0,
+            'length' => -1,
+            'search' => [
                 'value' => null,
                 'regex' => false,
             ],
@@ -55,6 +55,7 @@ class FactoryRequest
 
     /**
      * Generate mock columns
+     *
      * @return array
      */
     protected function generateColumns()
@@ -63,11 +64,11 @@ class FactoryRequest
 
         for ($i = 0; $i < $this->numberOfColumns; $i++) {
             $columns[] = [
-                'data'       => $i,
-                'name'       => null,
+                'data' => $i,
+                'name' => null,
                 'searchable' => true,
-                'orderable'  => true,
-                'search'     => [
+                'orderable' => true,
+                'search' => [
                     'value' => null,
                     'regex' => false,
                 ],

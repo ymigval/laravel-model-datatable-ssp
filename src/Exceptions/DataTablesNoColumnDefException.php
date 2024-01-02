@@ -9,13 +9,13 @@ class DataTablesNoColumnDefException extends Exception
     /**
      * @var string
      */
-    protected $message = "No column definition found.";
+    protected $message = 'No column definition found.';
 
     /**
      * DataTablesNoColumnDefException constructor.
      */
     public function __construct()
     {
-        
+
     }
 }

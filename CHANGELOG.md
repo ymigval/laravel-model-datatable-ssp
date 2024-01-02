@@ -2,6 +2,12 @@
 
 All updates and notable changes in the "ymigval/laravel-model-datatable-ssp" package will be documented in this file.
 
+## [Version 1.0.3] - 2024-01-01
+
+### Bug Fixes
+
+- Correction of number of filtered records.
+
 
 ## [Version 1.0.2] - 2023-09-16
 

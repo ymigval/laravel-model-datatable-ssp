@@ -1,4 +1,5 @@
 <?php
+
 namespace Ymigval\LaravelModelToDatatables\Tests;
 
 use Orchestra\Testbench\Database\MigrateProcessor;
@@ -10,23 +11,21 @@ class TestCase extends TestbenchTestCase
 {
     /**
      * Setup the test environment.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
 
-        (new MigrateProcessor($this, $this->resolvePackageMigrationsOptions(__DIR__ . '/../workbench/database/migrations')))->rollback();
+        (new MigrateProcessor($this, $this->resolvePackageMigrationsOptions(__DIR__.'/../workbench/database/migrations')))->rollback();
 
-        $this->loadMigrationsFrom(__DIR__ . '/../workbench/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/migrations');
 
         $this->seed(DatabaseSeeder::class);
 
         $this->call('
             /test-tabla',
             'GET',
-            json_decode(file_get_contents(__DIR__ . '/test_sent_parameters_datatables.json'), true)
+            json_decode(file_get_contents(__DIR__.'/test_sent_parameters_datatables.json'), true)
         );
     }
 
@@ -55,6 +54,6 @@ class TestCase extends TestbenchTestCase
     {
         // Define environment.
         $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite.database', __DIR__ . '/../workbench/database/database.sqlite');
+        $app['config']->set('database.connections.sqlite.database', __DIR__.'/../workbench/database/database.sqlite');
     }
 }

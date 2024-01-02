@@ -47,7 +47,7 @@ class DataTablesWithEloquentTest extends TestCase
                 'first_name',
                 'last_name',
                 'phone' => function ($column) {
-                    return '+1' . $column;
+                    return '+1'.$column;
                 },
             ]
         );
@@ -64,7 +64,7 @@ class DataTablesWithEloquentTest extends TestCase
             [
                 'first_name',
                 'last_name' => function ($column, $row) {
-                    return $row->first_name . ' ' . $column;
+                    return $row->first_name.' '.$column;
                 },
             ]
         );
@@ -101,7 +101,7 @@ class DataTablesWithEloquentTest extends TestCase
         $result = (new Customer())->datatable(
             [
                 'first_name' => function ($column, $row) {
-                    return $column . ' ' . $row->last_name;
+                    return $column.' '.$row->last_name;
                 },
             ],
             ['last_name']
@@ -158,8 +158,7 @@ class DataTablesWithEloquentTest extends TestCase
                     'customers.first_name AS f_name',
                     'customers.last_name AS l_name',
                     'business.name AS aaa',
-                ]
-                , ['customers.phone AS contact' => ['orderable' => false, 'searchable' => true]]
+                ], ['customers.phone AS contact' => ['orderable' => false, 'searchable' => true]]
             );
 
         $this->assertIsObject($result);

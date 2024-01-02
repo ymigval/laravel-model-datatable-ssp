@@ -15,5 +15,4 @@ class Business extends Model
      * @var string
      */
     protected $table = 'business';
-
 }
