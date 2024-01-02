@@ -1,4 +1,4 @@
-# ymigval/laravel-model-datatable-ssp
+# Processing Laravel Models with DataTables
 
 Extension designed to seamlessly integrate Laravel models with [server-side DataTables](https://datatables.net/examples/server_side/simple.html). It provides a convenient and efficient way to fetch, transform, and display data from your Laravel models in DataTables.
 
