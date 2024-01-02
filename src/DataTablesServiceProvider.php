@@ -26,7 +26,7 @@ class DataTablesServiceProvider extends ServiceProvider
     {
         // Extend the Eloquent and Query builder classes with a 'datatable' macro
         // provided by the 'Extension' class, enabling DataTables functionality.
-        Eloquent::macro('datatables', $this->app->make('Extension')());
-        Query::macro('datatables', $this->app->make('Extension')());
+        Eloquent::macro('datatable', $this->app->make('Extension')());
+        Query::macro('datatable', $this->app->make('Extension')());
     }
 }
