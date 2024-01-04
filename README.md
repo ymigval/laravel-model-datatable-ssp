@@ -86,7 +86,7 @@ return Customer::datatable([
 ], ['last_name']);
 ```
 
-By default, fields added to the context can be searched and sorted. You can configure this behavior by adding options to the field:
+By default, fields added to the context cannot be searched and sorted. You can configure this behavior by adding options to the field:
 
 ```php
 use App\Models\Customer;
@@ -95,7 +95,7 @@ return Customer::datatable([
     'first_name' => function ($field, $row) {
         return $field . ' ' . $row->last_name;
     }
-], ['last_name' => ['orderable' => true, 'searchable' => false]]);
+], ['last_name' => ['orderable' => true, 'searchable' => true]]);
 ```
 
 ## Usage with Query Builder

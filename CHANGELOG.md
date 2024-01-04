@@ -2,6 +2,13 @@
 
 All updates and notable changes in the "ymigval/laravel-model-datatable-ssp" package will be documented in this file.
 
+## [Version 2.0.0] - 2024-01-04
+
+### Change
+
+- The columns added to the context are set, by default, to 'false' for the 'orderable' and 'searchable' options.
+
+
 ## [Version 1.0.3] - 2024-01-01
 
 ### Bug Fixes

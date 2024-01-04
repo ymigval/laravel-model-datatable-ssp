@@ -217,7 +217,7 @@ class DataTables
      */
     protected function homogenizeFieldsInContext()
     {
-        $defaultOptions = ['orderable' => true, 'searchable' => true];
+        $defaultOptions = ['orderable' => false, 'searchable' => false];
 
         foreach ($this->fieldsInContext as $field => $options) {
 
