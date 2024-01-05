@@ -71,15 +71,15 @@ class DataTables
         $data = [];
 
         $data['draw'] = (int) $this->getRequestQuery('draw');
-        $data['recordsTotal'] = $this->builder->count();
+        $data['recordsTotal'] = $this->getCount();
         $data['recordsFiltered'] = $data['recordsTotal'];
 
         $builder = $this->withSearch($this->builder);
         $builder = $this->withOrder($builder);
         $builder = $this->withPagination($builder);
 
-        if ($builder->count()) {
-            $data['recordsFiltered'] = $builder->count();
+        if ($this->getCount()) {
+            $data['recordsFiltered'] = $this->getCount();
         }
 
         foreach (
@@ -548,6 +548,21 @@ class DataTables
             return substr(strrchr($field, '.'), 1);
         } else {
             return $field; // If there is no period, the complete value is returned
+        }
+    }
+
+
+    /**
+     * Count number of rows
+     *
+     * @return int
+     */
+    protected function getCount()
+    {
+        if (is_array($this->builder->getQuery()->groups) && count($this->builder->getQuery()->groups)) {
+            return $this->builder->getQuery()->getCountForPagination();
+        } else {
+            return $this->builder->count();
         }
     }
 }

@@ -2,6 +2,12 @@
 
 All updates and notable changes in the "ymigval/laravel-model-datatable-ssp" package will be documented in this file.
 
+## [Version 2.0.1] - 2024-01-05
+
+### Bug Fixes
+
+- Fixed row counting for all types of queries.
+
 ## [Version 2.0.0] - 2024-01-04
 
 ### Change
