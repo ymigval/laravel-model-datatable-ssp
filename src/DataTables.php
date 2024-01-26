@@ -82,6 +82,8 @@ class DataTables
             $data['recordsFiltered'] = $this->getCount();
         }
 
+        $data['data'] = [];
+
         foreach (
             $builder
                 ->get(static::fieldsWithAlias(array_keys($this->fields))) as $row
@@ -550,7 +552,6 @@ class DataTables
             return $field; // If there is no period, the complete value is returned
         }
     }
-
 
     /**
      * Count number of rows

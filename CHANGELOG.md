@@ -2,6 +2,13 @@
 
 All updates and notable changes in the "ymigval/laravel-model-datatable-ssp" package will be documented in this file.
 
+## [Version 2.0.2] - 2024-01-26
+
+### Bug Fixes
+
+- If no results are obtained, the value of the data attribute in the answer is an empty array.
+
+
 ## [Version 2.0.1] - 2024-01-05
 
 ### Bug Fixes
